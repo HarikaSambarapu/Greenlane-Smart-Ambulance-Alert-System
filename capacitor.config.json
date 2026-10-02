@@ -1,0 +1,11 @@
+{
+  "appId": "com.greenlane.smartambulance",
+  "appName": "Green Lane",
+  "webDir": "../GreenLane-templated",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}

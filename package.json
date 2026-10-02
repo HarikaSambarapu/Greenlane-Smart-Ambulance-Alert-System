@@ -1,0 +1,20 @@
+{
+  "name": "greenlane-android-shell",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Capacitor/Android packaging shell for the existing Greenline Smart Ambulance System static site (../GreenLane-templated). Contains no application code of its own.",
+  "scripts": {
+    "build": "echo \"No build step - GreenLane-templated is a plain static HTML/CSS/JS site, nothing to compile\"",
+    "sync": "npx cap sync android",
+    "open:android": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/app": "^6.0.1",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/push-notifications": "^6.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}
