@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – Green Lane</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/template.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="auth-page">
+    <div class="auth-split">
+
+        <!-- ── ILLUSTRATION SIDE PANEL (hidden on small screens) ── -->
+        <div class="auth-illustration">
+            <div class="auth-illustration-icon"><i class="fas fa-truck-medical"></i></div>
+            <h2>Every second counts.</h2>
+            <p>Green Lane connects ambulance drivers and traffic police in real time — so junctions clear before the ambulance even arrives.</p>
+        </div>
+
+        <div class="auth-card">
+
+        <!-- Logo -->
+        <div class="auth-logo">
+            <div class="logo-icon"><i class="fas fa-truck-medical"></i></div>
+            <h1>GREEN LANE</h1>
+            <p>Smart Ambulance Alert System</p>
+        </div>
+
+        <h2>Welcome back</h2>
+
+        <!-- Error message -->
+        <div class="auth-error" id="loginError"></div>
+
+        <!-- Email -->
+        <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="loginEmail" placeholder="Email address" autocomplete="email">
+        </div>
+
+        <!-- Password -->
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn-primary" id="loginBtn" type="button">
+            Sign In
+        </button>
+
+        <!-- Links -->
+        <div class="auth-links">
+            <span>Don't have an account? <a href="signup.html">Create one</a></span>
+            <a href="Forget.html">Forgot your password?</a>
+        </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="auth.js"></script>
+
+<script src="assets/js/animations.js"></script>
+</body>
+</html>

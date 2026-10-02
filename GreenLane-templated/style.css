@@ -1,0 +1,1019 @@
+/* ═══════════════════════════════════════════════════════════
+   GREEN LANE — Emergency Coordination Dashboard
+   Sidebar dashboard architecture (styling layer only — every
+   element ID/function referenced by home.html, GreenLane.html,
+   auth.js and script.js is preserved; only the visual system
+   and page structure around them changed).
+
+   Sections: Variables → Reset → Typography → Sidebar → Topbar →
+   Buttons → Stat Cards → Panels → Forms/Auth → Utilities →
+   Animations → Responsive → Dark Mode
+═══════════════════════════════════════════════════════════ */
+
+
+/* ───────────────────────── VARIABLES ───────────────────────── */
+:root {
+    /* Brand - deep teal, per the new palette */
+    --primary:         #0F766E;
+    --primary-dark:    #0B5C56;
+    --primary-light:   #E4F3F1;
+
+    /* Accent - orange is used sparingly now, only for the
+       Secondary button style and small highlight moments */
+    --accent:          #F97316;
+    --accent-dark:     #EA580C;
+    --accent-light:    #FFF1E8;
+
+    /* Semantic */
+    --emergency:       #DC2626;
+    --emergency-dark:  #B91C1C;
+    --emergency-light: #FEF2F2;
+
+    --success:         #16A34A;
+    --success-dark:    #15803D;
+    --success-light:   #ECFDF3;
+
+    --police:          #2563EB;
+    --police-dark:     #1D4ED8;
+    --police-light:    #EFF6FF;
+
+    /* Sidebar */
+    --sidebar-bg:      #16213A;
+    --sidebar-text:    #94A3B8;
+    --sidebar-hover:   rgba(255,255,255,0.06);
+    --sidebar-border:  rgba(255,255,255,0.08);
+
+    /* Neutrals */
+    --bg:              #F3F5F9;
+    --surface:         #FFFFFF;
+    --text:            #111827;
+    --text-muted:      #6B7280;
+    --border:          #E5E7EB;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(16,24,40,0.04);
+    --shadow-md: 0 4px 12px rgba(16,24,40,0.06);
+    --shadow-lg: 0 12px 32px rgba(16,24,40,0.12);
+
+    /* Radius */
+    --radius-sm:   10px;
+    --radius-md:   16px;
+    --radius-lg:   22px;
+    --radius-pill: 999px;
+
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+
+/* ───────────────────────── RESET ───────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--primary-dark); text-decoration: none; }
+button { font-family: inherit; }
+ul { list-style: none; }
+
+
+/* ───────────────────────── TYPOGRAPHY ───────────────────────── */
+h1, h2, h3 { letter-spacing: -0.3px; }
+
+.section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin: 0 0 14px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   APP SHELL / SIDEBAR
+═══════════════════════════════════════════════ */
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+    align-items: flex-start;
+}
+
+.sidebar {
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 22px 14px;
+    overflow-y: auto;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 8px 18px;
+    border-bottom: 1px solid var(--sidebar-border);
+    margin-bottom: 14px;
+}
+
+.sidebar-logo .logo-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.sidebar-logo h1 { font-size: 14px; font-weight: 800; color: white; letter-spacing: -0.2px; }
+.sidebar-logo p  { font-size: 10px; color: var(--sidebar-text); margin-top: 1px; }
+
+.nav-list { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: var(--sidebar-text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+.nav-item i { width: 16px; text-align: center; font-size: 13px; flex-shrink: 0; }
+.nav-item:hover { background: var(--sidebar-hover); color: white; }
+.nav-item.active { background: var(--primary); color: white; }
+.nav-item .nav-badge {
+    margin-left: auto;
+    background: var(--emergency);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: var(--radius-pill);
+}
+
+.sidebar-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--sidebar-border);
+}
+
+.main-area {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* script.js toggles driver/police dashboards with classList.add/remove("active")
+   on #driverDashboard / #policeHome - this mechanism must keep working. */
+.screen { display: none; }
+.screen.active { display: block; }
+
+
+/* ═══════════════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════════════ */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    padding: 15px 28px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.topbar-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+.topbar-title strong { display: block; font-size: 19px; color: var(--text); text-transform: none; letter-spacing: -0.3px; margin-top: 2px; }
+
+.topbar-actions { display: flex; align-items: center; gap: 12px; }
+
+.live-clock { font-size: 12px; font-weight: 600; color: var(--text-muted); white-space: nowrap; display: none; }
+@media (min-width: 700px) { .live-clock { display: block; } }
+
+.icon-btn {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.15s ease, color 0.15s ease;
+    flex-shrink: 0;
+}
+.icon-btn:hover { background: var(--border); color: var(--text); }
+
+.icon-btn .ping-dot {
+    position: absolute;
+    top: 6px;
+    right: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--emergency);
+    border: 2px solid var(--surface);
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px 12px 5px 5px;
+    border-radius: var(--radius-pill);
+    transition: background 0.15s ease;
+}
+.user-section:hover { background: var(--bg); }
+
+.profile-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.user-meta { display: none; flex-direction: column; line-height: 1.2; }
+@media (min-width: 560px) { .user-meta { display: flex; } }
+.user-meta strong { font-size: 12.5px; color: var(--text); font-weight: 700; }
+.user-meta .status-dot-row { font-size: 10.5px; color: var(--success-dark); display: flex; align-items: center; gap: 4px; }
+.user-meta .status-dot-row .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+
+/* Profile popup / dropdown */
+.profile-popup {
+    display: none;
+    position: fixed;
+    top: 66px;
+    right: 20px;
+    width: 270px;
+    background: var(--surface);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 999;
+    border: 1px solid var(--border);
+}
+.profile-popup h3 {
+    font-size: 14px;
+    margin-bottom: 14px;
+    color: var(--text);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+}
+.profile-popup p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.profile-popup p strong { color: var(--text); }
+
+.page-content {
+    padding: 24px 28px 44px;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Banners */
+.offline-banner, #homeEmergencyBanner, #emergencyBanner {
+    display: none;
+    background: var(--emergency);
+    color: white;
+    text-align: center;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 2500;
+}
+.offline-banner { display: none; font-size: 12px; }
+.offline-banner.show { display: block; }
+#homeEmergencyBanner, #emergencyBanner { line-height: 1.5; font-size: 15px; }
+
+
+/* ═══════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+}
+.btn-auto { width: auto; }
+
+/* Solid deep teal — the app's main brand/action color */
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); box-shadow: var(--shadow-md); }
+
+/* Secondary - orange, used sparingly as an accent for standout
+   but non-critical actions */
+.btn-secondary { background: var(--accent); color: white; }
+.btn-secondary:hover { background: var(--accent-dark); box-shadow: var(--shadow-md); }
+
+/* Police - blue, for Traffic Police-specific actions */
+.btn-police { background: var(--police); color: white; }
+.btn-police:hover { background: var(--police-dark); box-shadow: var(--shadow-md); }
+
+/* Solid green — Ready for Ambulance / affirmative actions */
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { background: var(--success-dark); box-shadow: var(--shadow-md); }
+
+/* Neutral white + border — Home, Logout, Mute, secondary links */
+.btn-outline { background: var(--surface); color: var(--text); border: 1.5px solid var(--border); box-shadow: none; }
+.btn-outline:hover { background: var(--bg); border-color: #d1d9e0; }
+
+/* White + red — Stop Emergency */
+.btn-outline-danger { background: var(--surface); color: var(--emergency); border: 1.5px solid #fecaca; box-shadow: none; }
+.btn-outline-danger:hover { background: var(--emergency-light); }
+
+/* Solid red - Start Emergency specifically (distinct from
+   .btn-outline-danger, which is the lighter "Stop Emergency" style) */
+.btn-danger { background: var(--emergency); color: white; }
+.btn-danger:hover { background: var(--emergency-dark); box-shadow: var(--shadow-md); }
+
+/* White + green — Mark Junction Cleared */
+.btn-outline-success { background: var(--surface); color: var(--success-dark); border: 1.5px solid #bbf7d0; box-shadow: none; }
+.btn-outline-success:hover { background: var(--success-light); }
+
+/* Sidebar-specific button treatment (dark background context) */
+.sidebar .btn-outline {
+    background: transparent;
+    color: var(--sidebar-text);
+    border-color: var(--sidebar-border);
+}
+.sidebar .btn-outline:hover { background: var(--sidebar-hover); color: white; }
+
+.police-notified-badge {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: var(--success-light);
+    color: var(--success-dark);
+    border: 1px solid #bbf7d0;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 10px 0 0;
+}
+
+
+/* ═══════════════════════════════════════════════
+   WELCOME BANNER (dashboard hero)
+═══════════════════════════════════════════════ */
+
+.welcome-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 22px;
+    overflow: hidden;
+}
+.welcome-banner .eyebrow { font-size: 12px; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+.welcome-banner h1 { font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.welcome-banner p { font-size: 13.5px; color: var(--text-muted); max-width: 380px; line-height: 1.5; }
+.welcome-illustration { width: 230px; flex-shrink: 0; }
+.welcome-illustration svg { width: 100%; height: auto; display: block; }
+@media (max-width: 700px) { .welcome-illustration { display: none; } }
+
+
+/* ═══════════════════════════════════════════════
+   STAT CARDS
+═══════════════════════════════════════════════ */
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease;
+}
+.stat-card:hover { box-shadow: var(--shadow-md); }
+
+.stat-icon-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+.tone-orange { background: var(--accent-light); color: var(--accent-dark); }
+.tone-red    { background: var(--emergency-light); color: var(--emergency); }
+.tone-blue   { background: var(--police-light); color: var(--police-dark); }
+.tone-green  { background: var(--success-light); color: var(--success-dark); }
+
+.stat-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 3px; }
+.stat-value { font-size: 24px; font-weight: 800; color: var(--text); letter-spacing: -0.4px; margin-bottom: 3px; }
+.stat-caption { font-size: 11.5px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+.stat-caption .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); flex-shrink: 0; }
+
+
+/* ═══════════════════════════════════════════════
+   PANELS  (Live Map + Recent Notifications, and
+   the driver/police control panels)
+═══════════════════════════════════════════════ */
+
+.panel-row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin-bottom: 22px; align-items: start; }
+@media (max-width: 900px) { .panel-row { grid-template-columns: 1fr; } }
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--border);
+}
+.panel-header h3 { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.panel-header a, .panel-header .panel-link { font-size: 12px; font-weight: 700; color: var(--primary-dark); cursor: pointer; background: none; border: none; }
+.panel-body { padding: 18px; }
+
+/* Static, illustrative map preview standing in for a live embed on
+   the dashboard - the real live Leaflet map lives on the map page,
+   this is a lightweight visual pointer to it. */
+.map-preview { position: relative; height: 210px; background: linear-gradient(135deg, #EAF2EF, #F3F5F9); }
+.map-preview svg { width: 100%; height: 100%; display: block; }
+.map-preview-footer { padding: 12px 18px; border-top: 1px solid var(--border); }
+
+.notif-mini-list { max-height: 300px; overflow-y: auto; }
+.notif-mini-item { display: flex; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.notif-mini-item:last-child { border-bottom: none; }
+.notif-mini-icon { width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12.5px; }
+.notif-mini-body { min-width: 0; flex: 1; }
+.notif-mini-title { font-size: 12.5px; font-weight: 700; color: var(--text); }
+.notif-mini-desc { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+.notif-mini-time { font-size: 10.5px; color: #9CA3AF; flex-shrink: 0; white-space: nowrap; margin-left: auto; padding-top: 2px; }
+.notif-mini-empty { padding: 30px 18px; text-align: center; color: var(--text-muted); font-size: 12.5px; }
+
+/* Driver / Traffic Police control panels + junction/ambulance info */
+.control-panel { padding: 20px; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; }
+.info-tile { background: var(--bg); padding: 10px; border-radius: 9px; }
+.info-tile-label { color: var(--text-muted); font-size: 11px; }
+.info-tile-value { font-weight: 700; color: var(--text); margin-top: 2px; }
+
+.status-pill {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: var(--police-light);
+    color: var(--police-dark);
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 12px;
+    justify-content: center;
+}
+
+.junction-input-row { display: flex; gap: 8px; }
+.junction-input-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg);
+    font-family: var(--font);
+}
+.junction-input-row input:focus { outline: none; border-color: var(--primary); }
+
+.control-stack { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.control-stack .btn { width: auto; }
+
+
+/* ═══════════════════════════════════════════════
+   FORMS / AUTH  (login / signup / forgot password)
+═══════════════════════════════════════════════ */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background: var(--bg);
+}
+
+.auth-card {
+    background: var(--surface);
+    width: 100%;
+    max-width: 440px;
+    border-radius: var(--radius-lg);
+    padding: 40px 36px 36px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+}
+
+.auth-logo { text-align: center; margin-bottom: 26px; }
+.auth-logo .logo-icon {
+    width: 58px;
+    height: 58px;
+    background: var(--primary-light);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--primary-dark);
+    margin: 0 auto 14px;
+}
+.auth-logo h1 { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+.auth-logo p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+.auth-card h2 { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 20px; text-align: center; }
+
+.input-group { position: relative; margin-bottom: 14px; }
+.input-group i {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); font-size: 15px; pointer-events: none;
+}
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: var(--font);
+}
+.input-group input:focus, .input-group select:focus {
+    outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); background: var(--surface);
+}
+.input-group input::placeholder { color: #9CA3AF; }
+
+.auth-links { text-align: center; margin-top: 18px; font-size: 13px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px; }
+.auth-links a { color: var(--primary-dark); font-weight: 700; }
+
+.auth-error {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border-radius: var(--radius-sm);
+    background: var(--emergency-light);
+    color: var(--emergency-dark);
+    border: 1px solid #fecaca;
+}
+.auth-error:empty { display: none; }
+
+/* Split layout with illustration side panel */
+.auth-split { width: 100%; max-width: 900px; display: flex; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
+.auth-split .auth-card { flex: 1; box-shadow: none; border: none; border-radius: 0; max-width: none; }
+.auth-illustration {
+    flex: 1; background: var(--sidebar-bg); padding: 40px 32px; display: none;
+    flex-direction: column; align-items: center; justify-content: center; text-align: center;
+}
+.auth-illustration-icon {
+    width: 78px; height: 78px; border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+    display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--primary);
+    margin-bottom: 22px;
+}
+.auth-illustration h2 { color: white; font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+.auth-illustration p { color: rgba(255,255,255,0.7); font-size: 13px; line-height: 1.6; max-width: 260px; }
+@media (min-width: 760px) { .auth-illustration { display: flex; } }
+
+/* Role selection cards (Driver / Traffic Police) */
+.role-select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.role-select-card {
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    background: var(--surface);
+}
+.role-select-card i { font-size: 24px; color: var(--text-muted); margin-bottom: 8px; display: block; }
+.role-select-card span { font-size: 12.5px; font-weight: 700; color: var(--text); }
+.role-select-card:hover { border-color: #d1d9e0; }
+.role-select-card.selected { border-color: var(--primary); background: var(--primary-light); }
+.role-select-card.selected i, .role-select-card.selected span { color: var(--primary-dark); }
+
+
+/* ═══════════════════════════════════════════════
+   MAP PAGE  (GreenLane.html driver / police dashboards)
+═══════════════════════════════════════════════ */
+
+/* Simpler topbar variant for the full-screen map pages (no sidebar) */
+.map-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.map-topbar h2 { font-size: 15px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.map-topbar h2 i { color: var(--primary); }
+.map-topbar-actions { display: flex; gap: 10px; }
+.map-topbar-actions .btn { width: auto; padding: 9px 18px; }
+
+.map-dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    align-items: start;
+}
+
+/* The map always fills the screen, with the controls anchored to
+   the bottom as a horizontal sheet, the way native map apps lay it
+   out - this is now the only layout, not a mobile-only variant, so
+   it looks the same on a phone as it does on a desktop browser. */
+#driverMap, #publicMap { height: calc(100vh - 56px) !important; }
+
+.map-info-column {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    max-height: 46vh;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    border-top: 1px solid var(--border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-lg);
+    z-index: 2000;
+    background: var(--surface);
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
+}
+
+.emergency-status-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+}
+.emergency-status-card .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+.emergency-status-card .row-label { font-size: 12px; color: var(--text-muted); }
+.emergency-status-card .row-value { font-size: 13px; font-weight: 700; color: var(--text); }
+
+
+#driverMap, #publicMap { width: 100%; height: 460px; border-radius: 0; }
+@media (min-width: 961px) {
+    #driverMap, #publicMap { height: calc(100vh - 56px); }
+}
+
+#liveStatus {
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--emergency-light);
+    color: var(--emergency);
+}
+#liveStatus.active-status { background: var(--success-light); color: var(--success-dark); }
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--emergency);
+    color: white;
+    padding: 16px 28px;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 700;
+    z-index: 9999;
+    box-shadow: var(--shadow-lg);
+    white-space: nowrap;
+}
+
+
+/* Bold solid-color stat cards (replacing the pale tinted version) -
+   icon in a translucent white circle, white text throughout */
+.stat-card.solid { border: none; color: white; }
+.stat-card.solid .stat-icon-circle { background: rgba(255,255,255,0.22); color: white; }
+.stat-card.solid .stat-label { color: rgba(255,255,255,0.85); }
+.stat-card.solid .stat-value { color: white; }
+.stat-card.solid .stat-caption { color: rgba(255,255,255,0.8); }
+.stat-card.solid .stat-caption .dot { background: white; }
+.stat-card.solid.tone-red    { background: var(--emergency); }
+.stat-card.solid.tone-orange { background: var(--accent); }
+.stat-card.solid.tone-blue   { background: var(--police); }
+.stat-card.solid.tone-green  { background: var(--success); }
+
+/* Menu button - a small square icon button at the top-left of the
+   page (reuses the existing .icon-btn style already used for the
+   bell icon), opening the sidebar as a bottom sheet. Nothing else
+   shows until the user taps it. */
+.sidebar-close-btn { display: flex; }
+
+.sidebar-scrim {
+    display: none;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 290;
+}
+.sidebar-scrim.show { display: block; }
+
+
+.help-hero {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px 32px;
+    margin-bottom: 22px;
+    text-align: center;
+}
+.help-hero .icon-badge {
+    width: 56px; height: 56px; border-radius: var(--radius-md);
+    background: var(--primary-light); color: var(--primary-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin: 0 auto 16px;
+}
+.help-hero h1 { font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.help-hero p { font-size: 13.5px; color: var(--text-muted); max-width: 480px; margin: 0 auto; line-height: 1.6; }
+
+.help-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 22px; }
+.help-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); }
+.help-card .stat-icon-circle { margin-bottom: 12px; }
+.help-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.help-card p { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+
+.help-steps { counter-reset: help-step; }
+.help-step { display: flex; gap: 14px; padding: 16px 18px; border-bottom: 1px solid var(--border); }
+.help-step:last-child { border-bottom: none; }
+.help-step-num {
+    counter-increment: help-step;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--primary); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12.5px; font-weight: 700; flex-shrink: 0;
+}
+.help-step-num::before { content: counter(help-step); }
+.help-step h4 { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.help-step p { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+
+.help-tabs { display: flex; gap: 8px; margin-bottom: 4px; padding: 0 18px; padding-top: 16px; }
+.help-tab {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text-muted);
+    padding: 7px 16px; border-radius: var(--radius-pill); font-size: 12.5px; font-weight: 700;
+    cursor: pointer;
+}
+.help-tab.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+/* Enlarged profile view */
+.profile-popup .profile-avatar-lg {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--primary-light); color: var(--primary-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin: 0 auto 10px;
+}
+.profile-popup .profile-name-lg { text-align: center; font-size: 15px; font-weight: 800; color: var(--text); }
+.profile-popup .profile-role-lg {
+    text-align: center; font-size: 11px; font-weight: 700; color: var(--primary-dark);
+    text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 14px;
+}
+.profile-detail-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12.5px;
+}
+.profile-detail-row:last-of-type { border-bottom: none; }
+.profile-detail-row i { width: 16px; color: var(--primary); flex-shrink: 0; }
+.profile-detail-label { color: var(--text-muted); min-width: 46px; }
+.profile-detail-value { color: var(--text); font-weight: 600; overflow-wrap: anywhere; }
+
+
+/* ═══════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════ */
+
+.text-muted { color: var(--text-muted); }
+.hidden { display: none !important; }
+.mt-10 { margin-top: 10px; }
+
+
+/* ═══════════════════════════════════════════════
+   ANIMATIONS  (kept intentionally subtle)
+═══════════════════════════════════════════════ */
+
+@keyframes blink { 50% { opacity: 0.55; } }
+#homeEmergencyBanner, #emergencyBanner, .popup { animation: blink 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+    #homeEmergencyBanner, #emergencyBanner, .popup { animation: none; }
+}
+
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════
+   NAV LAYOUT
+   The sidebar is a bottom sheet, opened only via the bottom
+   toolbar's Menu button - this is the one layout, used at every
+   window size, so there's no separate "desktop" vs "mobile"
+   variant to cause confusion.
+═══════════════════════════════════════════════ */
+
+.sidebar {
+    position: fixed;
+    top: 0; bottom: 0; left: -280px; right: auto;
+    width: 270px;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    z-index: 300;
+    transition: left 0.22s ease;
+    box-shadow: var(--shadow-lg);
+    padding-bottom: calc(14px + env(safe-area-inset-bottom));
+}
+.sidebar.open { left: 0; }
+.app-shell { display: block; }
+.main-area { width: 100%; }
+
+@media (max-width: 600px) {
+    .topbar { padding: 14px 16px; }
+    .page-content { padding: 18px 16px 32px; }
+    .welcome-banner { padding: 24px; }
+    .welcome-banner h1 { font-size: 22px; }
+}
+
+@media (max-width: 600px) {
+    .auth-card { padding: 30px 22px 28px; }
+    .role-select-grid { gap: 10px; }
+    #driverMap, #publicMap { height: 320px; }
+}
+
+
+/* ═══════════════════════════════════════════════
+   DARK MODE
+═══════════════════════════════════════════════ */
+
+body[data-theme="dark"] {
+    --bg:              #0B1220;
+    --surface:         #111827;
+    --text:            #F3F4F6;
+    --text-muted:      #9CA3AF;
+    --border:          #1F2937;
+
+    --primary-light:   #3A2312;
+    --emergency-light: #3A1417;
+    --police-light:    #101F36;
+    --success-light:   #0F2A18;
+}
+body[data-theme="dark"] .stat-card,
+body[data-theme="dark"] .panel,
+body[data-theme="dark"] .welcome-banner,
+body[data-theme="dark"] .topbar {
+    box-shadow: none;
+}
+body[data-theme="dark"] .icon-btn,
+body[data-theme="dark"] .user-section:hover {
+    background: var(--bg);
+    border-color: var(--border);
+}
+/* ═══════════════════════════════════════════════
+   PRELOADER
+   Pure visual overlay - a plain <script> (not type="module")
+   hides it on window load, completely separate from the Firebase/
+   Firestore module scripts, so it can't affect or delay app logic.
+═══════════════════════════════════════════════ */
+
+.preloader {
+    position: fixed; inset: 0; z-index: 99999;
+    background: var(--sidebar-bg);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.preloader-content { text-align: center; }
+
+.preloader-cross-wrap {
+    position: relative; width: 84px; height: 84px; margin: 0 auto 22px;
+    display: flex; align-items: center; justify-content: center;
+}
+.preloader-shield {
+    font-size: 84px; color: var(--primary); opacity: 0.3;
+    position: absolute; inset: 0;
+}
+.preloader-cross {
+    font-size: 32px; color: white;
+    animation: preloaderPulse 1.1s ease-in-out infinite;
+}
+@keyframes preloaderPulse {
+    0%, 100% { transform: scale(1);    opacity: 1; }
+    50%      { transform: scale(1.18); opacity: 0.85; }
+}
+
+.preloader-ecg {
+    width: 220px; height: 40px; margin: 0 auto 18px;
+    overflow: hidden;
+    color: var(--success);
+}
+.preloader-ecg-svg {
+    width: 440px; height: 40px;
+    animation: preloaderEcgScroll 2.2s linear infinite;
+}
+@keyframes preloaderEcgScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-220px); }
+}
+
+.preloader-brand {
+    font-size: 18px; font-weight: 800; color: white; letter-spacing: 0.5px;
+}
+.preloader-brand span { color: var(--accent); }
+.preloader-tagline {
+    font-size: 12px; color: var(--sidebar-text); margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .preloader-cross { animation: none; }
+    .preloader-ecg-svg { animation: none; }
+}

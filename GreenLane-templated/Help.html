@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help &amp; Support – Green Lane</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/template.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="map-topbar">
+    <h2><i class="fas fa-circle-question"></i> Help &amp; Support</h2>
+    <div class="map-topbar-actions">
+        <button class="btn btn-outline" onclick="window.location.href='home.html'">
+            <i class="fas fa-house"></i> Back to Dashboard
+        </button>
+    </div>
+</div>
+
+<div class="page-content" style="max-width: 900px;">
+
+    <!-- ── ABOUT ── -->
+    <div class="help-hero">
+        <div class="icon-badge"><i class="fas fa-truck-medical"></i></div>
+        <h1>About Green Lane</h1>
+        <p>
+            Green Lane connects ambulance drivers and Traffic Police in real time.
+            When a driver starts an emergency, nearby Traffic Police instantly see the
+            ambulance's live location, distance and estimated arrival time — so the
+            junction can be cleared before the ambulance even gets there.
+        </p>
+    </div>
+
+    <!-- ── FEATURES ── -->
+    <h2 class="section-title">Features</h2>
+    <div class="help-grid">
+        <div class="help-card">
+            <div class="stat-icon-circle tone-orange"><i class="fas fa-truck-medical"></i></div>
+            <h3>Live Emergency Alerts</h3>
+            <p>Start an emergency as a driver and every nearby Traffic Police unit is notified instantly, with live distance and ETA.</p>
+        </div>
+        <div class="help-card">
+            <div class="stat-icon-circle tone-blue"><i class="fas fa-map"></i></div>
+            <h3>Live Map Tracking</h3>
+            <p>See the ambulance and Traffic Police units move on the map in real time, with route, direction and estimated speed.</p>
+        </div>
+        <div class="help-card">
+            <div class="stat-icon-circle tone-green"><i class="fas fa-shield-halved"></i></div>
+            <h3>Junction Status</h3>
+            <p>Traffic Police can mark their junction as Ready, Traffic Managed, or Cleared — the driver sees this update immediately.</p>
+        </div>
+        <div class="help-card">
+            <div class="stat-icon-circle tone-red"><i class="fas fa-bell"></i></div>
+            <h3>Notifications &amp; Alerts</h3>
+            <p>An audible alert and an on-screen banner play automatically when an ambulance is close to your junction.</p>
+        </div>
+    </div>
+
+    <!-- ── HOW TO USE ── -->
+    <h2 class="section-title">How to Use</h2>
+
+    <div class="panel" style="margin-bottom:22px;">
+        <div class="help-tabs">
+            <button class="help-tab active" id="driverTabBtn" onclick="showHelpTab('driver')">
+                <i class="fas fa-truck-medical"></i> For Drivers
+            </button>
+            <button class="help-tab" id="policeTabBtn" onclick="showHelpTab('police')">
+                <i class="fas fa-shield-halved"></i> For Traffic Police
+            </button>
+        </div>
+
+        <div class="help-steps" id="driverSteps">
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Sign up or log in as a Driver</h4><p>Create an account from the Sign Up page and choose "I am a Driver".</p></div>
+            </div>
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Open the Live Map</h4><p>From your dashboard, click "Open Full Map" or "Live Map" in the sidebar.</p></div>
+            </div>
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Allow location access</h4><p>Your browser will ask for GPS permission - allow it so Traffic Police can see your live position.</p></div>
+            </div>
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Start Emergency</h4><p>Tap "Start Emergency" the moment you're on a call. Nearby Traffic Police are alerted instantly.</p></div>
+            </div>
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Stop Emergency when done</h4><p>Tap "Stop Emergency" once the ambulance has passed the junction, to clear the alert for everyone.</p></div>
+            </div>
+        </div>
+
+        <div class="help-steps" id="policeSteps" style="display:none;">
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Sign up or log in as Traffic Police</h4><p>Create an account from the Sign Up page and choose "I am a Police Officer".</p></div>
+            </div>
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Name your junction</h4><p>On the Live Map page, type your junction's name (e.g. "MG Road Signal") and save it.</p></div>
+            </div>
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Allow location access</h4><p>This lets the app calculate live distance and ETA from any active ambulance to your junction.</p></div>
+            </div>
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Tap the Mute Alert Sound button once</h4><p>Browsers block alert sounds until you interact with the page - tapping this button (even just to check it) enables the emergency buzzer for your session.</p></div>
+            </div>
+            <div class="help-step">
+                <div class="help-step-num"></div>
+                <div><h4>Respond to alerts</h4><p>When an ambulance is close, you'll see a banner and hear an alert. Update your junction status as you manage traffic.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div class="help-card" style="text-align:center;">
+        <h3 style="margin-bottom:10px;">Still need help?</h3>
+        <p style="margin-bottom:16px;">Reach out and we'll get back to you as soon as we can.</p>
+        <a class="btn btn-primary btn-auto" style="display:inline-flex;" href="mailto:support@greenlane.app">
+            <i class="fas fa-envelope"></i> support@greenlane.app
+        </a>
+    </div>
+
+</div>
+
+<script>
+    function showHelpTab(which) {
+        document.getElementById("driverSteps").style.display = which === "driver" ? "block" : "none";
+        document.getElementById("policeSteps").style.display = which === "police" ? "block" : "none";
+        document.getElementById("driverTabBtn").classList.toggle("active", which === "driver");
+        document.getElementById("policeTabBtn").classList.toggle("active", which === "police");
+    }
+</script>
+
+<script src="assets/js/animations.js"></script>
+</body>
+</html>

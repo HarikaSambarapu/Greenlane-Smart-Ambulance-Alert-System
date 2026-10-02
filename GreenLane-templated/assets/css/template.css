@@ -1,0 +1,313 @@
+/* GREEN LANE — template.css
+   Reset, typography, and page layout (sidebar, topbar, page shell). */
+
+
+
+
+/* ───────────────────────── RESET ───────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--primary-dark); text-decoration: none; }
+button { font-family: inherit; }
+ul { list-style: none; }
+
+
+/* ───────────────────────── TYPOGRAPHY ───────────────────────── */
+h1, h2, h3 { letter-spacing: -0.3px; }
+
+.section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin: 0 0 14px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   APP SHELL / SIDEBAR
+═══════════════════════════════════════════════ */
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+    align-items: flex-start;
+}
+
+.sidebar {
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 22px 14px;
+    overflow-y: auto;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 8px 18px;
+    border-bottom: 1px solid var(--sidebar-border);
+    margin-bottom: 14px;
+}
+
+.sidebar-logo .logo-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.sidebar-logo h1 { font-size: 14px; font-weight: 800; color: white; letter-spacing: -0.2px; }
+.sidebar-logo p  { font-size: 10px; color: var(--sidebar-text); margin-top: 1px; }
+
+.nav-list { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: var(--sidebar-text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+.nav-item i { width: 16px; text-align: center; font-size: 13px; flex-shrink: 0; }
+.nav-item:hover { background: var(--sidebar-hover); color: white; }
+.nav-item.active { background: var(--primary); color: white; }
+.nav-item .nav-badge {
+    margin-left: auto;
+    background: var(--emergency);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: var(--radius-pill);
+}
+
+.sidebar-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--sidebar-border);
+}
+
+.main-area {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* script.js toggles driver/police dashboards with classList.add/remove("active")
+   on #driverDashboard / #policeHome - this mechanism must keep working. */
+.screen { display: none; }
+.screen.active { display: block; }
+
+
+/* ═══════════════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════════════ */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    padding: 15px 28px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.topbar-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+.topbar-title strong { display: block; font-size: 19px; color: var(--text); text-transform: none; letter-spacing: -0.3px; margin-top: 2px; }
+
+.topbar-actions { display: flex; align-items: center; gap: 12px; }
+
+.live-clock { font-size: 12px; font-weight: 600; color: var(--text-muted); white-space: nowrap; display: none; }
+@media (min-width: 700px) { .live-clock { display: block; } }
+
+.icon-btn {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.15s ease, color 0.15s ease;
+    flex-shrink: 0;
+}
+.icon-btn:hover { background: var(--border); color: var(--text); }
+
+.icon-btn .ping-dot {
+    position: absolute;
+    top: 6px;
+    right: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--emergency);
+    border: 2px solid var(--surface);
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px 12px 5px 5px;
+    border-radius: var(--radius-pill);
+    transition: background 0.15s ease;
+}
+.user-section:hover { background: var(--bg); }
+
+.profile-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.user-meta { display: none; flex-direction: column; line-height: 1.2; }
+@media (min-width: 560px) { .user-meta { display: flex; } }
+.user-meta strong { font-size: 12.5px; color: var(--text); font-weight: 700; }
+.user-meta .status-dot-row { font-size: 10.5px; color: var(--success-dark); display: flex; align-items: center; gap: 4px; }
+.user-meta .status-dot-row .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+
+/* Profile popup / dropdown */
+.profile-popup {
+    display: none;
+    position: fixed;
+    top: 66px;
+    right: 20px;
+    width: 270px;
+    background: var(--surface);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 999;
+    border: 1px solid var(--border);
+}
+.profile-popup h3 {
+    font-size: 14px;
+    margin-bottom: 14px;
+    color: var(--text);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+}
+.profile-popup p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.profile-popup p strong { color: var(--text); }
+
+.page-content {
+    padding: 24px 28px 44px;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Banners */
+.offline-banner, #homeEmergencyBanner, #emergencyBanner {
+    display: none;
+    background: var(--emergency);
+    color: white;
+    text-align: center;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 2500;
+}
+.offline-banner { display: none; font-size: 12px; }
+.offline-banner.show { display: block; }
+#homeEmergencyBanner, #emergencyBanner { line-height: 1.5; font-size: 15px; }
+
+
+/* ═══════════════════════════════════════════════
+   NAV LAYOUT
+   The sidebar is a bottom sheet, opened only via the bottom
+   toolbar's Menu button - this is the one layout, used at every
+   window size, so there's no separate "desktop" vs "mobile"
+   variant to cause confusion.
+═══════════════════════════════════════════════ */
+
+.sidebar {
+    position: fixed;
+    top: 0; bottom: 0; left: -280px; right: auto;
+    width: 270px;
+    max-height: none;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    z-index: 300;
+    transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: var(--shadow-lg);
+    padding-bottom: calc(14px + env(safe-area-inset-bottom));
+}
+.sidebar.open { left: 0; }
+.app-shell { display: block; }
+.main-area { width: 100%; }
+
+@media (max-width: 600px) {
+    .topbar { padding: 14px 16px; }
+    .page-content { padding: 18px 16px 32px; }
+    .welcome-banner { padding: 24px; }
+    .welcome-banner h1 { font-size: 22px; }
+}
+
+@media (max-width: 600px) {
+    .auth-card { padding: 30px 22px 28px; }
+    .role-select-grid { gap: 10px; }
+    #driverMap, #publicMap { height: 320px; }
+}
+
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */

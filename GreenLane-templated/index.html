@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenLane</title>
+</head>
+<body>
+    <p style="font-family: Arial; text-align: center; margin-top: 40px;">
+        Checking your session...
+    </p>
+
+    <script type="module">
+        import { auth, db } from "./firebase.js";
+
+        import {
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        import {
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        let redirectStarted = false;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (redirectStarted) return;
+
+            if (!user) {
+                redirectStarted = true;
+                window.location.replace("login.html");
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+
+                if (!userDoc.exists()) {
+                    redirectStarted = true;
+                    window.location.replace("login.html");
+                    return;
+                }
+
+                const data = userDoc.data();
+
+                localStorage.setItem("uid", user.uid);
+                localStorage.setItem("email", user.email || "");
+                localStorage.setItem("name", data.name || "");
+                localStorage.setItem("role", data.role || "");
+
+                redirectStarted = true;
+                window.location.replace("home.html");
+
+            } catch (error) {
+                console.error("Session check failed:", error);
+                document.body.innerHTML =
+                    "<p style='font-family:Arial;text-align:center;margin-top:40px'>" +
+                    "Unable to verify your session. Please check your internet connection and reopen the app." +
+                    "</p>";
+            }
+        });
+    </script>
+</body>
+</html>
